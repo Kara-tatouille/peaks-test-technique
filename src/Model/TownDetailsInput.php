@@ -2,7 +2,6 @@
 
 namespace App\Model;
 
-use App\Entity\Town;
 use App\ObjectMapper\DepartmentCodeTransformer;
 use Symfony\Component\ObjectMapper\Attribute\Map;
 use Symfony\Component\Serializer\Attribute\SerializedName;

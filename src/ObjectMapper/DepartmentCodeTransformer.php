@@ -3,10 +3,8 @@
 namespace App\ObjectMapper;
 
 use App\Entity\Department;
-use App\Entity\Region;
-use App\Model\DepartmentInput;
 use App\Repository\DepartmentRepository;
-use App\Repository\RegionRepository;
+use InvalidArgumentException;
 use Symfony\Component\ObjectMapper\TransformCallableInterface;
 
 readonly class DepartmentCodeTransformer implements TransformCallableInterface
@@ -19,7 +17,7 @@ readonly class DepartmentCodeTransformer implements TransformCallableInterface
     {
         $departmentEntity = $this->departmentRepository->findOneBy(['code' => $value]);
         if (!$departmentEntity) {
-            throw new \InvalidArgumentException("Department '$value' does not exist in database.");
+            throw new InvalidArgumentException("Department '$value' does not exist in database.");
         }
 
         return $departmentEntity;

@@ -19,7 +19,7 @@
         {% for town in pagination %}
             <tr {% if loop.index is odd %}class="color"{% endif %}>
                 <td>{{ town.postalCodes|join(', ') }}</td>
-                <td>{{ town.name }}</td>
+                <td><a href="{{ path('app_town_details', {region: region.code, department: department.code, town: town.name}) }}">{{ town.name }}</a></td>
             </tr>
         {% endfor %}
     </table>

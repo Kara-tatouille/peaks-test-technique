@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {%dump %}
+    <h1>Ville de {{ town.name }}</h1>
+    <ul>
+        <li>Superficie : {{ town.area }} m²</li>
+        <li>Nombre d'habitants : {{ town.population }}</li>
+        <li>Code postaux : {{ town.postalCodes|join(', ') }}</li>
+    </ul>
+    <a href="{{ path('app_town', {region: region.code, department: department.code}) }}">Back</a>
+{% endblock %}
+
+{% block title %}
+Commune
+{% endblock %}

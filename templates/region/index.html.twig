@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Regions{% endblock %}
+
+{% block body %}
+    <h1>Régions</h1>
+    <ul>
+        {% for region in regions %}
+            <li><a href="#">{{ region.code }} - {{ region.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

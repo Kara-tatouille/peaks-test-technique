@@ -6,7 +6,7 @@
     <h1>Départements</h1>
     <ul>
         {% for department in departments %}
-            <li><a href="{{ '#' }}">{{ department.code }} - {{ department.name }}</a></li>
+            <li><a href="{{ path('app_town', {region: department.region.code, department: department.code}) }}">{{ department.code }} - {{ department.name }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

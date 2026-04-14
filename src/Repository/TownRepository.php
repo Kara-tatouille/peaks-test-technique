@@ -2,9 +2,13 @@
 
 namespace App\Repository;
 
+use App\Entity\Department;
 use App\Entity\Town;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use http\QueryString;
 
 /**
  * @extends ServiceEntityRepository<Town>
@@ -16,28 +20,13 @@ class TownRepository extends ServiceEntityRepository
         parent::__construct($registry, Town::class);
     }
 
-//    /**
-//     * @return Town[] Returns an array of Town objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Town
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function byDepartmentOrderedByNameQuery(Department $department):Query
+    {
+        return $this->createQueryBuilder('town')
+            ->leftJoin('town.department', 'department')
+            ->where('department.code = :code')
+            ->setParameter('code', $department->getCode())
+            ->orderBy('town.name', 'ASC')
+            ->getQuery();
+    }
 }

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Communes{% endblock %}
+
+{% block header %}
+    {{ knp_pagination_rel_links(pagination) }}
+{% endblock %}
+
+{% block body %}
+    <div class="count">
+        {{ pagination.getTotalItemCount }} communes dans le département {{ department.name }}
+    </div>
+    <table>
+        <tr>
+            <th>Code postal</th>
+            <th>Ville</th>
+        </tr>
+
+        {% for town in pagination %}
+            <tr {% if loop.index is odd %}class="color"{% endif %}>
+                <td>{{ town.postalCodes|join(', ') }}</td>
+                <td>{{ town.name }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+        <form method="GET">
+            <input type="hidden" name="page" id="page" value="{{ page }}">
+            <select name="limit" id="limit" onchange="this.form.submit()">
+                <option value="10" {% if limit == 10 %}selected{% endif %}>10</option>
+                <option value="25" {% if limit == 25 %}selected{% endif %}>25</option>
+            </select>
+        </form>
+    </div>
+{% endblock %}

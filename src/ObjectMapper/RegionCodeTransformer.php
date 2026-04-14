@@ -2,10 +2,9 @@
 
 namespace App\ObjectMapper;
 
-use App\Entity\Department;
 use App\Entity\Region;
-use App\Model\DepartmentInput;
 use App\Repository\RegionRepository;
+use InvalidArgumentException;
 use Symfony\Component\ObjectMapper\TransformCallableInterface;
 
 readonly class RegionCodeTransformer implements TransformCallableInterface
@@ -18,7 +17,7 @@ readonly class RegionCodeTransformer implements TransformCallableInterface
     {
         $regionEntity = $this->regionRepository->findOneBy(['code' => $value]);
         if (!$regionEntity) {
-            throw new \InvalidArgumentException("Region '$value' does not exist in database.");
+            throw new InvalidArgumentException("Region '$value' does not exist in database.");
         }
 
         return $regionEntity;

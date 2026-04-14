@@ -38,7 +38,7 @@ readonly class GeoapiTownsCommand
 
     private function populateTowns(SymfonyStyle $io, string $departmentCode): int
     {
-        $io->comment('starting towns');
+        $io->comment('fetching towns for the department code ' . $departmentCode);
         $response = $this->geoapiClient->request('GET', "/departements/{$departmentCode}/communes");
         try {
             $json = $response->getContent();
@@ -52,7 +52,7 @@ readonly class GeoapiTownsCommand
             'json',
         );
 
-        foreach ($townInputs as $i => $townInput) {
+        foreach ($townInputs as $townInput) {
             $town = $this->objectMapper->map($townInput);
 
             if ($exist = $this->townRepository->findOneBy(['code' => $town->getCode()])) {
@@ -67,7 +67,7 @@ readonly class GeoapiTownsCommand
         }
         $this->em->flush();
         $this->em->clear();
-        $io->success('finished towns');
+        $io->comment('done with department code ' . $departmentCode);
 
         return Command::SUCCESS;
     }

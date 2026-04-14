@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\Region;
 use App\Repository\DepartmentRepository;
-use Symfony\Bridge\Doctrine\Attribute\MapEntity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;

@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\Department;
+use App\Entity\Region;
 use App\Model\DepartmentInput;
 use App\Repository\DepartmentRepository;
 use App\Repository\RegionRepository;
@@ -15,7 +16,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\ObjectMapper\ObjectMapperInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
-use App\Entity\Region;
 
 #[AsCommand(
     name: 'app:geoapi:fetch',
@@ -23,7 +23,6 @@ use App\Entity\Region;
 )]
 readonly class GeoapiFetchCommand
 {
-    public const BATCH_SIZE = 500;
     public function __construct(
         private EntityManagerInterface $em,
         private RegionRepository $regionRepository,

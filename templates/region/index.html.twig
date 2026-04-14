@@ -6,7 +6,7 @@
     <h1>Régions</h1>
     <ul>
         {% for region in regions %}
-            <li><a href="#">{{ region.code }} - {{ region.name }}</a></li>
+            <li><a href="{{ path('app_department', {code: region.code}) }}">{{ region.code }} - {{ region.name }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

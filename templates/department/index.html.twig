@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Départements{% endblock %}
+
+{% block body %}
+    <h1>Départements</h1>
+    <ul>
+        {% for department in departments %}
+            <li><a href="{{ '#' }}">{{ department.code }} - {{ department.name }}</a></li>
+        {% endfor %}
+    </ul>
+{% endblock %}

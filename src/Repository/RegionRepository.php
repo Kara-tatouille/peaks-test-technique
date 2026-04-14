@@ -18,8 +18,8 @@ class RegionRepository extends ServiceEntityRepository
 
     public function allOrderedByCode(): array
     {
-        return $this->createQueryBuilder('r')
-            ->orderBy('r.code', 'ASC')
+        return $this->createQueryBuilder('region')
+            ->orderBy('region.code', 'ASC')
             ->getQuery()
             ->getResult();
     }

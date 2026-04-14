@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Department;
+use App\Entity\Region;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,14 @@ class DepartmentRepository extends ServiceEntityRepository
         parent::__construct($registry, Department::class);
     }
 
-    //    /**
-    //     * @return Department[] Returns an array of Department objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('d.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Department
-    //    {
-    //        return $this->createQueryBuilder('d')
-    //            ->andWhere('d.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function byRegionOrderedByCode(Region $region): array
+    {
+        return $this->createQueryBuilder('department')
+            ->leftJoin('department.region', 'region')
+            ->andWhere('region.code = :code')
+            ->orderBy('department.code', 'ASC')
+            ->setParameter('code', $region->getCode())
+            ->getQuery()
+            ->getResult();
+    }
 }

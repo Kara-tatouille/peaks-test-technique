@@ -6,9 +6,7 @@ use App\Entity\Department;
 use App\Entity\Town;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use http\QueryString;
 
 /**
  * @extends ServiceEntityRepository<Town>
@@ -28,5 +26,16 @@ class TownRepository extends ServiceEntityRepository
             ->setParameter('code', $department->getCode())
             ->orderBy('town.name', 'ASC')
             ->getQuery();
+    }
+
+    public function byName(string $search): ?Town
+    {
+        return $this->createQueryBuilder('town')
+            ->where('LOWER(town.name) LIKE :search')
+            ->setParameter('search', strtolower("{$search}%"))
+            ->orderBy('town.name', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

@@ -21,6 +21,19 @@
         {% endblock %}
     </head>
     <body>
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <div class="search">
+            <p>Rechercher une commune :</p>
+            <form action="{{ path('app_town_search') }}" method="GET">
+                <input type="text" placeholder="Nom de la commune" name="search" id="search">
+            </form>
+        </div>
         {% block body %}{% endblock %}
     </body>
 </html>

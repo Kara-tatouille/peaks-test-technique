@@ -9,4 +9,6 @@
             <li><a href="{{ path('app_town', {region: department.region.code, department: department.code}) }}">{{ department.code }} - {{ department.name }}</a></li>
         {% endfor %}
     </ul>
+    <a href="{{ path('app_region') }}">Back</a>
+
 {% endblock %}

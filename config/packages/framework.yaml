@@ -5,6 +5,12 @@ framework:
     # Note that the session will be started ONLY if you read or write from it.
     session: true
 
+    http_client:
+        scoped_clients:
+            geoapiClient:
+                base_uri: 'https://geo.api.gouv.fr'
+
+
     #esi: true
     #fragments: true
 

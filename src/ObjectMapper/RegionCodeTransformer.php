@@ -8,9 +8,6 @@ use App\Model\DepartmentInput;
 use App\Repository\RegionRepository;
 use Symfony\Component\ObjectMapper\TransformCallableInterface;
 
-/**
- * @implements TransformCallableInterface<DepartmentInput, Department>
- */
 readonly class RegionCodeTransformer implements TransformCallableInterface
 {
     public function __construct(

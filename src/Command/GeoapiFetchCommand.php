@@ -7,20 +7,12 @@ use App\Model\DepartmentInput;
 use App\Repository\DepartmentRepository;
 use App\Repository\RegionRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
-use Symfony\Component\HttpClient\ScopingHttpClient;
-use Symfony\Component\HttpClient\UriTemplateHttpClient;
-use Symfony\Component\ObjectMapper\ObjectMapper;
 use Symfony\Component\ObjectMapper\ObjectMapperInterface;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Entity\Region;
@@ -31,6 +23,7 @@ use App\Entity\Region;
 )]
 readonly class GeoapiFetchCommand
 {
+    public const BATCH_SIZE = 500;
     public function __construct(
         private EntityManagerInterface $em,
         private RegionRepository $regionRepository,
@@ -42,15 +35,13 @@ readonly class GeoapiFetchCommand
     {
     }
 
-    public function __invoke(): int
+    public function __invoke(Application $application, OutputInterface $output): int
     {
         $this->populateRegions();
 
         $this->populateDepartments();
 
-        $this->populateTowns();
-
-        return Command::SUCCESS;
+        return $this->populateTowns($application, $output);
     }
 
     private function populateRegions(): void
@@ -92,8 +83,23 @@ readonly class GeoapiFetchCommand
         $this->em->flush();
     }
 
-    private function populateTowns()
+    private function populateTowns(Application $application, OutputInterface $output): int
     {
+        $returnCode = Command::SUCCESS;
 
+        $departments = $this->em->getRepository(Department::class)->findAll();
+        foreach ($departments as $department) {
+            $input = new ArrayInput([
+                'command' => 'app:geoapi:towns',
+                'department-code' => $department->getCode(),
+            ]);
+            $result = $application->doRun($input, $output);
+            if ($result > 0) {
+                $returnCode = $result;
+            }
+        }
+
+        return $returnCode;
     }
+
 }
